@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
-
+from fastapi.staticfiles import StaticFiles
 app = FastAPI(title="Exchange Rates API")
 
+app.mount("/", StaticFiles(directory="../frontend", html=True), name="static")
 # Allow requests from any frontend
 app.add_middleware(
     CORSMiddleware,
