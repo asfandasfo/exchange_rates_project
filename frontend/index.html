@@ -44,7 +44,7 @@
             }
 
             try {
-                const res = await fetch(`https://https://exchange-rates-project.onrender.com/rate?sender=${sender}&receiver=${receiver}`);
+                const res = await fetch(`https://exchange-rates-project.onrender.com/rate?sender=${sender}&receiver=${receiver}`);
                 const data = await res.json();
                 if(data) {
                     resultEl.textContent = `💱 Rate from ${sender} → ${receiver}: ${data.rate}`;
