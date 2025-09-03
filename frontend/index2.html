@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Rates</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 2rem; background: #f9f9f9; }
+        h1 { color: #333; }
+        form { margin-top: 1rem; }
+        label { display: block; margin: 0.5rem 0 0.2rem; font-weight: bold; }
+        input { padding: 0.5rem; width: 200px; }
+        button { margin-top: 1rem; padding: 0.6rem 1.2rem; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #0056b3; }
+        #result { margin-top: 1.5rem; font-size: 1.2rem; color: #222; }
+    </style>
+</head>
+<body>
+    <h1>TapTap Exchange Rate Checker</h1>
+
+    <form id="rateForm">
+        <label for="sender">Sender Country Code:</label>
+        <input type="text" id="sender" placeholder="e.g., IT" required>
+
+        <label for="receiver">Receiver Country Code:</label>
+        <input type="text" id="receiver" placeholder="e.g., PK" required>
+
+        <button type="submit">Get Rate</button>
+    </form>
+
+    <h2 id="result"></h2>
+
+    <script>
+        document.getElementById("rateForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // stop form from refreshing page
+
+            const sender = document.getElementById("sender").value.trim();
+            const receiver = document.getElementById("receiver").value.trim();
+            const resultEl = document.getElementById("result");
+
+            if(!sender || !receiver) {
+                resultEl.textContent = "Enter both country codes!";
+                return;
+            }
+
+            try {
+                const res = await fetch(`https://YOUR_BACKEND_URL/rate?sender=${sender}&receiver=${receiver}`);
+                const data = await res.json();
+                if(data.rate) {
+                    resultEl.textContent = `💱 Rate from ${sender} → ${receiver}: ${data.rate}`;
+                } else {
+                    resultEl.textContent = data.error || "Rate not found";
+                }
+            } catch (e) {
+                resultEl.textContent = "⚠️ Error fetching rate: " + e;
+            }
+        });
+    </script>
+</body>
+</html>
