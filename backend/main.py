@@ -5,13 +5,15 @@ import requests
 app = FastAPI(title="Exchange Rates API")
 
 
-# Allow requests from any frontend
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # or specify your GitHub Pages URL instead of "*"
+    allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
+
 
 def get_taptap_rates():
     url = "https://api.taptapsend.com/api/fxRates"
